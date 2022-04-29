@@ -1,9 +1,9 @@
 package com.almod.edi.route;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 public class ActiveMQMessageConsumerRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
