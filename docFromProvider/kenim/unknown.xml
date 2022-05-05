@@ -1,0 +1,29 @@
+<document>
+    <head>
+        <typeDoc>vtxcvxc</typeDoc>
+        <correlationID value = "87AFB34FVC123CDNBFB23C" />
+        <providerName value = "KENIM" />
+        <countPosition value = "3" />
+    </head>
+
+    <articles>
+        <article value = "Хлеб пшеничный">
+            <price value = "39"/>
+            <expirationDate value = "3d"/>
+        </article>
+
+        <article value = "Молоко в банке 1л">
+            <price value = "87"/>
+            <expirationDate value = "7d"/>
+        </article>
+
+        <article value = "Бананы 1гк">
+            <price value = "129"/>
+            <expirationDate value = "5d"/>
+        </article>
+    </articles>
+
+    <AddressOfSendingTheCatalog>
+        г.Новосибирк, ул.Ленина, д 156
+    </AddressOfSendingTheCatalog>
+</document>

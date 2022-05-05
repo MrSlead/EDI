@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Создание общего роута для вычитки с очередей разных провайдеров и отправка в общую очередь для обработки документов, обход дублирования кода.
  * Т.к. провайдеры имитированы на том же брокере, в "from" роута вписывается "activemq". Иначе для каждого брокера было бы своё подключение.
+ * Т.к. проект тестовый, то отправка идёт в один direct:doc.incoming по всем типам документа. Это место может быть узким для производительности.
+ * Для большей производительности должен быть свой direct под свой тип документа.
  */
 
 @Component
@@ -33,7 +35,8 @@ public class ProviderToBrokerRoutes extends RouteBuilder {
                         .when(xpath("//document/head/typeDoc='pricat'"))
                         .setHeader("TYPE_DOC").xpath("//document/head/typeDoc/text()")
                     .end()
-                    .to("activemq:doc.incoming");
+                    .log("[batch = ${exchangeProperty.BATCH_ID}] Sending document in the doc.incoming")
+                    .to("direct:doc.incoming");
         }
     }
 }
