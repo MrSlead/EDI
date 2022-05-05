@@ -12,7 +12,7 @@ public class KenimProviderRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         //from("timer:active-mq-timer?period=10000")
-        from("file:C://Users//Alex//Desktop//Projects//EDI//docFromProvider//kenim?noop=true&charset=utf-8")
+        from("file:docFromProvider/kenim?noop=true&charset=utf-8")
                 //.transform().constant("Hello Message from Kenim")
                 .to("activemq:kenim.outgoing.almod");
     }
