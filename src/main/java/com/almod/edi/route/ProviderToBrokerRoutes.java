@@ -18,18 +18,21 @@ public class ProviderToBrokerRoutes extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        onException(Exception.class)
+                .maximumRedeliveries(0)
+                .to("direct:log-error");
 
         for(EdiFlow ediFlow : flows){
             String fromUrl = String.format("activemq:%s?concurrentConsumers=%s", ediFlow.incomingQueue, ediFlow.providerInConsumerCount);
             from(fromUrl)
                     .routeId(ediFlow.routeId)
-                    .log("Receive document from " + ediFlow.providerName)
+                    .setProperty("BATCH_ID").spel("#{T(java.util.UUID).randomUUID().toString()}")
+                    .log(String.format("[batch = ${exchangeProperty.BATCH_ID}] Receive document from %s", ediFlow.providerName))
                     .setHeader("EDI_PROVIDER_NAME").constant(ediFlow.providerName)
                     .choice()
-                        .when(xpath("//*[local-name() = 'typeDoc' and text()='pricat']"))
-                        .setHeader("TYPE_DOC").constant(xpath("//*[local-name() = 'typeDoc'"))
+                        .when(xpath("//document/head/typeDoc='pricat'"))
+                        .setHeader("TYPE_DOC").xpath("//document/head/typeDoc/text()")
                     .end()
-                    .log("${header.TYPE_DOC}")
                     .to("activemq:doc.incoming");
         }
     }
