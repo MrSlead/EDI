@@ -11,7 +11,7 @@ public class ValueProviderKenimForPricatConfig {
     @Value("${kenim.incoming.queue}")
     private String kenimIncomingQueue;
 
-    @Value("${kenim.in.counsumer.count}")
+    @Value("${kenim.in.consumer.count}")
     private String kenimInConsumerCount;
 
     @Value("${kenim.route.id}")

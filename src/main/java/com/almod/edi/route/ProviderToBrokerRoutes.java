@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 @Component
-public class IncomingDocumentsFromProviderRoute extends RouteBuilder {
+public class ProviderToBrokerRoutes extends RouteBuilder {
 
     public List<EdiFlow> flows = EdiFlowConfig.flows;
 
@@ -20,10 +20,16 @@ public class IncomingDocumentsFromProviderRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         for(EdiFlow ediFlow : flows){
-            String fromUrl = String.format("activemq:%s?concurrentConsumers=%s", ediFlow.incomingQueue, ediFlow.providerInCounsumerCount);
+            String fromUrl = String.format("activemq:%s?concurrentConsumers=%s", ediFlow.incomingQueue, ediFlow.providerInConsumerCount);
             from(fromUrl)
                     .routeId(ediFlow.routeId)
-                    .log("Receive document from " + ediFlow.providerName.toUpperCase())
+                    .log("Receive document from " + ediFlow.providerName)
+                    .setHeader("EDI_PROVIDER_NAME").constant(ediFlow.providerName)
+                    .choice()
+                        .when(xpath("//*[local-name() = 'typeDoc' and text()='pricat']"))
+                        .setHeader("TYPE_DOC").constant(xpath("//*[local-name() = 'typeDoc'"))
+                    .end()
+                    .log("${header.TYPE_DOC}")
                     .to("activemq:doc.incoming");
         }
     }

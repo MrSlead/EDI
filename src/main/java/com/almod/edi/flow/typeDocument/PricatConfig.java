@@ -20,7 +20,7 @@ public class PricatConfig {
         EdiFlow flow = new EdiFlow();
         flow.providerName = valueProviderKenimForPricatConfig.getKenimProviderName();
         flow.incomingQueue = valueProviderKenimForPricatConfig.getKenimIncomingQueue();
-        flow.providerInCounsumerCount = valueProviderKenimForPricatConfig.getKenimInConsumerCount();
+        flow.providerInConsumerCount = valueProviderKenimForPricatConfig.getKenimInConsumerCount();
         flow.routeId = valueProviderKenimForPricatConfig.getKenimRouteId();
 
         flows.add(flow);
